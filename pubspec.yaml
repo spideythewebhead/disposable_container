@@ -1,6 +1,6 @@
 name: disposable_container
 description: A flutter package that manages dispose callbacks and subscriptions cancellations.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/spideythewebhead/disposable_container
 
 environment:
