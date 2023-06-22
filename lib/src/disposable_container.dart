@@ -8,6 +8,11 @@ typedef OnDisposeError = void Function(Object error, StackTrace stackTrace);
 class DisposableContainer {
   DisposableContainer();
 
+  /// Set a callback that is called when a disposable is getting disposed and crashes
+  ///
+  /// This callback reports the error and stacktrace from a try/catch block
+  ///
+  /// You **must** ensure that this function doesn't crash itself.
   OnDisposeError? onDisposeError;
 
   final List<DisposableCallback> _disposables = <DisposableCallback>[];
@@ -37,7 +42,14 @@ class DisposableContainer {
   /// Adds a single [StreamSubscription].
   void addSubscription(StreamSubscription<dynamic> subscription) {
     _assertNotDisposed();
-    _disposables.add(() async => await subscription.cancel());
+    _disposables.add(subscription.cancel);
+  }
+
+  /// Adds a list of [StreamSubscription]s.
+  void addSubscriptions(List<StreamSubscription<dynamic>> subscriptions) {
+    for (final StreamSubscription<dynamic> subscription in subscriptions) {
+      addSubscription(subscription);
+    }
   }
 
   /// Disposes the current available [DisposableCallback]s and clears the container.
