@@ -43,3 +43,11 @@ extension DisposableContainerFocusNodeExtension on FocusNode {
     return this;
   }
 }
+
+/// [DisposableContainer] extensions for [ChangeNotifier]
+extension DisposableContainerChangeNotifier<T extends ChangeNotifier> on T {
+  T autoDisposeWith(DisposableContainer disposableContainer) {
+    disposableContainer.addDisposable(dispose);
+    return this;
+  }
+}
