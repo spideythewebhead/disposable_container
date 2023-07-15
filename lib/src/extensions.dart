@@ -23,27 +23,6 @@ extension DisposableContainerStreamSubscriptionExtension<T>
   }
 }
 
-/// [DisposableContainer] extensions for [TextEditingController].
-extension DisposableContainerTextEditingControllerExtension
-    on TextEditingController {
-  /// Automatically disposes this [TextEditingController] when [disposableContainer] is disposed.
-  TextEditingController autoDisposeWith(
-    DisposableContainer disposableContainer,
-  ) {
-    disposableContainer.addDisposable(dispose);
-    return this;
-  }
-}
-
-/// [DisposableContainer] extensions for [FocusNode].
-extension DisposableContainerFocusNodeExtension on FocusNode {
-  /// Automatically disposes this [FocusNode] when [disposableContainer] is disposed.
-  FocusNode autoDisposeWith(DisposableContainer disposableContainer) {
-    disposableContainer.addDisposable(dispose);
-    return this;
-  }
-}
-
 /// [DisposableContainer] extensions for [ChangeNotifier]
 extension DisposableContainerChangeNotifier<T extends ChangeNotifier> on T {
   T autoDisposeWith(DisposableContainer disposableContainer) {
