@@ -12,7 +12,7 @@ void main() {
     final DisposableContainer disposableContainer = DisposableContainer();
     final MockSimpleCallable disposable = MockSimpleCallable();
 
-    disposableContainer.addDisposable(disposable);
+    disposableContainer.addDisposable(disposable.call);
     await disposableContainer.dispose();
 
     verify(disposable()).called(1);
@@ -71,11 +71,11 @@ void main() {
       final DisposableContainer disposableContainer = DisposableContainer();
       final MockSimpleCallable callable = MockSimpleCallable();
 
-      disposableContainer.addDisposable(callable);
+      disposableContainer.addDisposable(callable.call);
       await disposableContainer.clear();
       expect(disposableContainer.disposed, isFalse);
 
-      disposableContainer.addDisposable(callable);
+      disposableContainer.addDisposable(callable.call);
       await disposableContainer.dispose();
 
       verify(callable()).called(2);

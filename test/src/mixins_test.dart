@@ -37,7 +37,7 @@ void main() {
 
 class _ClassWithDisposableContainerMixin with DisposableContainerMixin {
   _ClassWithDisposableContainerMixin(MockSimpleCallable callable) {
-    disposableContainer.addDisposable(callable);
+    disposableContainer.addDisposable(callable.call);
   }
 }
 
@@ -57,7 +57,7 @@ class _TestWidgetState extends State<_TestWidget>
   @override
   void initState() {
     super.initState();
-    disposableContainer.addDisposable(widget.callable);
+    disposableContainer.addDisposable(widget.callable.call);
   }
 
   @override
