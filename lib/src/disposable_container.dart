@@ -60,14 +60,34 @@ class DisposableContainer {
     final List<DisposableCallback> disposables = <DisposableCallback>[
       ..._disposables
     ];
+
+    final List<DisposableCallback> syncDisposables = <DisposableCallback>[];
+    final List<DisposableCallback> asyncDisposables = <DisposableCallback>[];
+
     for (final DisposableCallback disposable in disposables) {
+      if (disposable is Future<dynamic> Function()) {
+        asyncDisposables.add(disposable);
+      } else {
+        syncDisposables.add(disposable);
+      }
+    }
+    _disposables.clear();
+
+    for (final DisposableCallback disposable in syncDisposables) {
+      try {
+        disposable();
+      } catch (exception, stackTrace) {
+        onDisposeError?.call(exception, stackTrace);
+      }
+    }
+
+    for (final DisposableCallback disposable in asyncDisposables) {
       try {
         await disposable();
       } catch (exception, stackTrace) {
         onDisposeError?.call(exception, stackTrace);
       }
     }
-    _disposables.clear();
   }
 
   /// Disposes the available [DisposableCallback]s.
